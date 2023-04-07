@@ -1,6 +1,6 @@
 export interface INote {
-  userId: number
-  id: number
+  userId: number | string
+  id: number | string
   title: string
   body: string
 }

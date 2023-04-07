@@ -1,5 +1,5 @@
 import { INote } from "@/types";
-import React from "react";
+import React, { useState } from "react";
 
 interface IProps {
   title: string;
@@ -11,6 +11,10 @@ interface IProps {
 
 const NoteModal = ({ noteId, notes, close }: IProps) => {
   const note = notes.find((el) => el.id === noteId);
+  const [titleInputShow, seTtitleInputShow] = useState(false);
+  const [bodyInputShow, seBodyInputShow] = useState(false);
+  const [titleInputValue, setTitleInputValue] = useState(note?.title);
+  const [bodyInputValue, setbodyInputValue] = useState(note?.body);
 
   return (
     <>

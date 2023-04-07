@@ -1,14 +1,12 @@
 import { Form, Navbar, NoteModal } from "@/components";
 import { NoteCard } from "@/components";
 import { INote } from "@/types";
-import { useEffect, useState } from "react";
-import { useStateContext } from "@/context/ContextProvider";
+import { FormEvent, useEffect, useState } from "react";
 
-export default function Home() {
+export default function Home({ data }: { data: INote[] }) {
   const [showModal, setShowModal] = useState(false);
   const [noteId, setNoteId] = useState<number>(-1);
-
-  const { notes } = useStateContext();
+  const [notes, setNotes] = useState(data);
 
   useEffect(() => {
     const close = (e: KeyboardEvent) => {
@@ -29,19 +27,34 @@ export default function Home() {
     setShowModal(false);
   };
 
+  const createNote = (e: FormEvent, note: INote) => {
+    e.preventDefault();
+    setNotes([note, ...notes]);
+  };
+
+  const removeNote = (noteId: number | string) => {
+    const filteredNotes = notes.filter((note) => note.id != noteId);
+    setNotes(filteredNotes);
+  };
+
   return (
     <>
       <Navbar />
       <div className="container mx-auto p-4 max-w-[1200px]">
-        <Form />
+        <Form create={createNote} />
         {notes?.length ? (
           <div className="grid grid-cols-4 gap-[16px] mt-4">
             {notes?.map((note) => (
-              <NoteCard key={note.id} note={note} open={openModal} />
+              <NoteCard
+                key={note.id}
+                note={note}
+                open={openModal}
+                remove={removeNote}
+              />
             ))}
           </div>
         ) : (
-          <p>No notes</p>
+          <p className="mt-4">No notes</p>
         )}
       </div>
       {showModal && (
@@ -55,4 +68,13 @@ export default function Home() {
       )}
     </>
   );
+}
+
+export async function getStaticProps() {
+  const res = await fetch(
+    `https://jsonplaceholder.typicode.com/posts?_start=0&_limit=8`
+  );
+  const data = await res.json();
+
+  return { props: { data } };
 }
