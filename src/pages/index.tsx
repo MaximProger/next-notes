@@ -33,8 +33,23 @@ export default function Home({ data }: { data: INote[] }) {
   };
 
   const removeNote = (noteId: number | string) => {
-    const filteredNotes = notes.filter((note) => note.id != noteId);
-    setNotes(filteredNotes);
+    setNotes(notes.filter((note) => note.id != noteId));
+  };
+
+  const editNote = (
+    noteId: string | number | undefined,
+    editNote: { title: string; body: string }
+  ) => {
+    setNotes(
+      notes.map((note) => {
+        if (note.id === noteId) {
+          return { ...note, ...editNote };
+        }
+
+        return note;
+      })
+    );
+    closeModal();
   };
 
   return (
@@ -62,6 +77,7 @@ export default function Home({ data }: { data: INote[] }) {
           title="Hello"
           body="Lorem"
           close={closeModal}
+          edit={editNote}
           noteId={noteId}
           notes={notes}
         />
