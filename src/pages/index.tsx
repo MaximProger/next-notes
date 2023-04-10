@@ -72,10 +72,6 @@ export default function Home({ data }: { data: INote[] }) {
 
   const searchNotes = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
-    // dispatch({
-    //   type: "search_notes",
-    //   query: e.target.value,
-    // });
   };
 
   return (
@@ -83,7 +79,7 @@ export default function Home({ data }: { data: INote[] }) {
       <Navbar searchNotes={searchNotes} />
       <div className="container mx-auto p-4 max-w-[1200px]">
         <CreateForm create={createNote} />
-        {notes?.length ? (
+        {results.length ? (
           <div className="grid grid-cols-4 gap-[16px] mt-4">
             {results.map((note) => (
               <NoteCard
