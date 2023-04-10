@@ -52,7 +52,7 @@ const NoteModal = ({ noteId, notes, close, edit }: IProps) => {
                 />
               ) : (
                 <h3
-                  className="text-3xl font-semibold cursor-pointer select-none"
+                  className="text-3xl w-full min-h-[18px] font-semibold cursor-pointer select-none"
                   onClick={(e) => {
                     switch (e.detail) {
                       case 1: {
@@ -102,6 +102,7 @@ const NoteModal = ({ noteId, notes, close, edit }: IProps) => {
                       [e.target.name]: e.target.value,
                     })
                   }
+                  value={editNote.body}
                 >
                   {editNote.body}
                 </textarea>

@@ -1,12 +1,28 @@
-import { Form, Navbar, NoteModal } from "@/components";
+import { CreateForm, Navbar, NoteModal } from "@/components";
 import { NoteCard } from "@/components";
+import { notesReducer } from "@/reducer/notesReducer";
 import { INote } from "@/types";
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useReducer, useState } from "react";
 
 export default function Home({ data }: { data: INote[] }) {
   const [showModal, setShowModal] = useState(false);
   const [noteId, setNoteId] = useState<number>(-1);
-  const [notes, setNotes] = useState(data);
+  const [query, setQuery] = useState("");
+  const [notes, dispatch] = useReducer(notesReducer, data);
+  const results = filterItems(notes, query);
+
+  function filterItems(notes: INote[], query: string) {
+    query = query.toLowerCase();
+    return notes.filter(
+      (notes) =>
+        notes.title
+          .split(" ")
+          .some((word) => word.toLowerCase().startsWith(query)) ||
+        notes.body
+          .split(" ")
+          .some((word) => word.toLowerCase().startsWith(query))
+    );
+  }
 
   useEffect(() => {
     const close = (e: KeyboardEvent) => {
@@ -29,37 +45,47 @@ export default function Home({ data }: { data: INote[] }) {
 
   const createNote = (e: FormEvent, note: INote) => {
     e.preventDefault();
-    setNotes([note, ...notes]);
+    dispatch({
+      type: "create_note",
+      note: note,
+    });
   };
 
   const removeNote = (noteId: number | string) => {
-    setNotes(notes.filter((note) => note.id != noteId));
+    dispatch({
+      type: "remove_note",
+      noteId: noteId,
+    });
   };
 
   const editNote = (
     noteId: string | number | undefined,
     editNote: { title: string; body: string }
   ) => {
-    setNotes(
-      notes.map((note) => {
-        if (note.id === noteId) {
-          return { ...note, ...editNote };
-        }
-
-        return note;
-      })
-    );
+    dispatch({
+      type: "update_note",
+      noteId: noteId,
+      editNote: editNote,
+    });
     closeModal();
+  };
+
+  const searchNotes = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    // dispatch({
+    //   type: "search_notes",
+    //   query: e.target.value,
+    // });
   };
 
   return (
     <>
-      <Navbar />
+      <Navbar searchNotes={searchNotes} />
       <div className="container mx-auto p-4 max-w-[1200px]">
-        <Form create={createNote} />
+        <CreateForm create={createNote} />
         {notes?.length ? (
           <div className="grid grid-cols-4 gap-[16px] mt-4">
-            {notes?.map((note) => (
+            {results.map((note) => (
               <NoteCard
                 key={note.id}
                 note={note}

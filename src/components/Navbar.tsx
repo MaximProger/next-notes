@@ -1,9 +1,13 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/images/logo.svg";
 
-const Navbar = () => {
+interface IProps {
+  searchNotes(e: ChangeEvent<HTMLInputElement>): void;
+}
+
+const Navbar = ({ searchNotes }: IProps) => {
   return (
     <nav className="bg-secondary border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -16,6 +20,7 @@ const Navbar = () => {
           id="search"
           type="text"
           placeholder="Search"
+          onChange={searchNotes}
         />
         <button
           type="button"

@@ -1,6 +1,6 @@
 import Navbar from "./Navbar";
 import NoteCard from "./NoteCard";
 import NoteModal from "./NoteModal";
-import Form from "./Form";
+import CreateForm from "./CreateForm";
 
-export { Navbar, NoteCard, NoteModal, Form };
+export { Navbar, NoteCard, NoteModal, CreateForm };
