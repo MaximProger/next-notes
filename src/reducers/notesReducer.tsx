@@ -1,4 +1,5 @@
 import { INote } from "@/types";
+import update from "immutability-helper";
 
 export function notesReducer(notes: INote[], action) {
   switch (action.type) {
@@ -15,6 +16,14 @@ export function notesReducer(notes: INote[], action) {
         }
 
         return note;
+      });
+    }
+    case "move_notes": {
+      return update(notes, {
+        $splice: [
+          [action.dragIndex, 1],
+          [action.hoverIndex, 0, notes[action.dragIndex] as INote],
+        ],
       });
     }
     default: {

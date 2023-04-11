@@ -7,11 +7,11 @@ import { useLoaded } from "@/hooks";
 import { Tooltip } from "react-tooltip";
 
 interface IProps {
-  searchNotes(e: ChangeEvent<HTMLInputElement>): void;
+  search(e: ChangeEvent<HTMLInputElement>): void;
 }
 
-const Navbar = ({ searchNotes }: IProps) => {
-  const { view, changeView } = useStateContext();
+const Navbar = ({ search }: IProps) => {
+  const { view, changeView, changeTheme } = useStateContext();
   const loaded = useLoaded();
 
   return (
@@ -26,10 +26,11 @@ const Navbar = ({ searchNotes }: IProps) => {
           id="search"
           type="text"
           placeholder="Search"
-          onChange={searchNotes}
+          onChange={search}
         />
         <div className="flex gap-[16px]">
           <button
+            onClick={() => changeTheme()}
             type="button"
             className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-transparent border-[1px] border-fontColor transition-colors hover:bg-primary"
           >

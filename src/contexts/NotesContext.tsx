@@ -4,14 +4,16 @@ import { IContext } from "@/types";
 const StateContext = createContext<IContext>({} as IContext);
 
 export const ContextProvider = ({ children }: { children: ReactNode }) => {
-  const getView = () => {
-    if (typeof window !== "undefined" && localStorage.getItem("view")) {
-      return localStorage.getItem("view");
+  const getLocalStorageValue = (key: string, defaultValue: string) => {
+    if (typeof window !== "undefined" && localStorage.getItem(key)) {
+      return localStorage.getItem(key);
     }
 
-    return "grid";
+    return defaultValue;
   };
-  const [view, setView] = useState(getView());
+
+  const [view, setView] = useState(getLocalStorageValue("view", "grid"));
+  const [theme, setTheme] = useState(getLocalStorageValue("theme", "light"));
 
   const changeView = () => {
     const value = view === "grid" ? "list" : "grid";
@@ -22,8 +24,17 @@ export const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const changeTheme = () => {
+    const value = theme === "light" ? "dark" : "light";
+    setTheme(value);
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", value);
+    }
+  };
+
   return (
-    <StateContext.Provider value={{ changeView, view }}>
+    <StateContext.Provider value={{ view, changeView, theme, changeTheme }}>
       {children}
     </StateContext.Provider>
   );

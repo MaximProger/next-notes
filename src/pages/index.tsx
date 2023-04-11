@@ -1,16 +1,18 @@
-import {
-  CreateForm,
-  Navbar,
-  NoteModal,
-  NotesList,
-  Preloader,
-} from "@/components";
-import { NoteCard } from "@/components";
-import { notesReducer } from "@/reducer/notesReducer";
+import { CreateForm, Layout, NoteModal, NotesList } from "@/components";
+import { notesReducer } from "@/reducers/notesReducer";
 import { INote } from "@/types";
-import { ChangeEvent, FormEvent, useEffect, useReducer, useState } from "react";
-import { ContextProvider } from "@/contexts/NotesContext";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { useLoaded } from "@/hooks";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { useStateContext } from "@/contexts/NotesContext";
 
 export default function Home({ data }: { data: INote[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -18,7 +20,6 @@ export default function Home({ data }: { data: INote[] }) {
   const [query, setQuery] = useState("");
   const [notes, dispatch] = useReducer(notesReducer, data);
   const results = filterItems(notes, query);
-  const loaded = useLoaded();
 
   function filterItems(notes: INote[], query: string) {
     query = query.toLowerCase();
@@ -79,18 +80,29 @@ export default function Home({ data }: { data: INote[] }) {
     closeModal();
   };
 
+  const moveNote = useCallback((dragIndex: number, hoverIndex: number) => {
+    dispatch({
+      type: "move_notes",
+      dragIndex,
+      hoverIndex,
+    });
+  }, []);
+
   const searchNotes = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
   return (
-    <ContextProvider>
-      {!loaded && <Preloader />}
-      <Navbar searchNotes={searchNotes} />
-      <div className="container mx-auto p-4 max-w-[1200px]">
-        <CreateForm create={createNote} />
-        <NotesList notes={results} open={openModal} remove={removeNote} />
-      </div>
+    <Layout search={searchNotes}>
+      <CreateForm create={createNote} />
+      <DndProvider backend={HTML5Backend}>
+        <NotesList
+          notes={results}
+          open={openModal}
+          remove={removeNote}
+          move={moveNote}
+        />
+      </DndProvider>
       {showModal && (
         <NoteModal
           title="Hello"
@@ -101,7 +113,7 @@ export default function Home({ data }: { data: INote[] }) {
           notes={notes}
         />
       )}
-    </ContextProvider>
+    </Layout>
   );
 }
 

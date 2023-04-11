@@ -4,8 +4,13 @@ export interface INote {
   title: string
   body: string
 }
-
 export interface IContext {
+  view: string | null,
   changeView(): void,
-  view: string | null
+  theme: string | null,
+  changeTheme(): void,
+}
+
+export const ItemTypes = {
+  CARD: 'card',
 }
