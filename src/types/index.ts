@@ -11,6 +11,12 @@ export interface IContext {
   changeTheme(): void,
 }
 
+export interface IDragItem {
+  index: number;
+  id: string;
+  type: string;
+}
+
 export const ItemTypes = {
   CARD: 'card',
 }

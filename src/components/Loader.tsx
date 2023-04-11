@@ -5,7 +5,9 @@ const Loader = () => {
   return (
     <Html>
       <span className="canvas-loader"></span>
-      <p className="text-sm text-fontColor font-bold">{progress.toFixed(2)}%</p>
+      <p className="text-sm text-fontColor dark:text-fontColorDark font-bold transition-colors">
+        {progress.toFixed(2)}%
+      </p>
     </Html>
   );
 };

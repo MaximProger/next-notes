@@ -9,10 +9,10 @@ import {
   useReducer,
   useState,
 } from "react";
-import { useLoaded } from "@/hooks";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useStateContext } from "@/contexts/NotesContext";
+import { toast } from "react-toastify";
 
 export default function Home({ data }: { data: INote[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -20,6 +20,20 @@ export default function Home({ data }: { data: INote[] }) {
   const [query, setQuery] = useState("");
   const [notes, dispatch] = useReducer(notesReducer, data);
   const results = filterItems(notes, query);
+
+  const toastOption = (type: string) => {
+    return {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      type: type,
+    };
+  };
 
   function filterItems(notes: INote[], query: string) {
     query = query.toLowerCase();
@@ -59,6 +73,7 @@ export default function Home({ data }: { data: INote[] }) {
       type: "create_note",
       note: note,
     });
+    toast("Note created", toastOption("success"));
   };
 
   const removeNote = (noteId: number | string) => {
@@ -66,6 +81,7 @@ export default function Home({ data }: { data: INote[] }) {
       type: "remove_note",
       noteId: noteId,
     });
+    toast("Note deleted", toastOption("error"));
   };
 
   const editNote = (
@@ -78,6 +94,7 @@ export default function Home({ data }: { data: INote[] }) {
       editNote: editNote,
     });
     closeModal();
+    toast("Note edited", toastOption("warning"));
   };
 
   const moveNote = useCallback((dragIndex: number, hoverIndex: number) => {

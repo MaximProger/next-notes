@@ -1,5 +1,5 @@
 import { INote } from "@/types";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface IProps {
   title: string;
@@ -33,7 +33,7 @@ const NoteModal = ({ noteId, notes, close, edit }: IProps) => {
           onClick={(e) => e.stopPropagation()}
         >
           {/*content*/}
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-secondary outline-none focus:outline-none">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-secondary dark:bg-secondaryDark outline-none focus:outline-none transition-colors">
             {/*header*/}
             <div className="flex items-start justify-between px-5 py-8 border-b border-solid border-slate-300 rounded-t">
               {isShowInputTitle ? (
@@ -41,7 +41,7 @@ const NoteModal = ({ noteId, notes, close, edit }: IProps) => {
                   id="title"
                   name="title"
                   type="text"
-                  className="w-full h-max text-3xl font-semibold bg-none outline-none border border-fontColor bg-transparent rounded-lg p-2"
+                  className="w-full h-max text-3xl font-semibold bg-none outline-none border border-fontColor dark:border-fontColorDark bg-transparent rounded-lg p-2 transition-colors"
                   value={editNote.title}
                   onChange={(e) =>
                     setEditNote({
@@ -95,7 +95,7 @@ const NoteModal = ({ noteId, notes, close, edit }: IProps) => {
                 <textarea
                   id="body"
                   name="body"
-                  className="w-full h-[250px] text-lg leading-relaxed bg-none outline-none border border-fontColor bg-transparent rounded-lg p-2"
+                  className="w-full h-[250px] text-lg leading-relaxed bg-none outline-none border border-fontColor dark:border-fontColorDark bg-transparent rounded-lg p-2 transition-colors"
                   onChange={(e) =>
                     setEditNote({
                       ...editNote,

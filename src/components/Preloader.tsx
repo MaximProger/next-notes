@@ -1,8 +1,6 @@
-import React from "react";
-
 const Preloader = () => {
   return (
-    <div className="fixed top-0 right-0 left-0 bottom-0 w-[100vw] h-[100vh] z-10 bg-primary flex items-center justify-center">
+    <div className="fixed top-0 right-0 left-0 bottom-0 w-[100vw] h-[100vh] z-10 bg-primary dark:bg-primaryDark flex items-center justify-center transition-colors">
       <div role="status">
         <svg
           aria-hidden="true"

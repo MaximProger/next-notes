@@ -1,7 +1,10 @@
 import type { Identifier, XYCoord } from "dnd-core";
-import { INote, ItemTypes } from "@/types";
+import { IDragItem, INote, ItemTypes } from "@/types";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import { Tooltip } from "react-tooltip";
+import { useLoaded } from "@/hooks";
+import { useStateContext } from "@/contexts/NotesContext";
 
 interface IProps {
   note: INote;
@@ -12,16 +15,13 @@ interface IProps {
   move: (dragIndex: number, hoverIndex: number) => void;
 }
 
-interface DragItem {
-  index: number;
-  id: string;
-  type: string;
-}
-
 const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const loaded = useLoaded();
+  const { theme } = useStateContext();
+
   const [{ handlerId }, drop] = useDrop<
-    DragItem,
+    IDragItem,
     void,
     { handlerId: Identifier | null }
   >({
@@ -31,7 +31,7 @@ const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: DragItem, monitor) {
+    hover(item: IDragItem, monitor) {
       if (!ref.current) {
         return;
       }
@@ -99,17 +99,21 @@ const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
       ref={ref}
       style={{ opacity }}
       data-handler-id={handlerId}
-      className="group/note-card block p-6 bg-secondary border rounded-lg transition-all hover:border-tertiary hover:shadow cursor-pointer relative"
+      className="group/note-card block p-6 bg-secondary dark:bg-secondaryDark border rounded-lg hover:border-tertiary hover:shadow cursor-pointer relative"
       onClick={() => open(note.id)}
     >
       <button
+        data-tooltip-id="view-btn"
+        data-tooltip-content="Delete"
+        data-tooltip-variant={loaded && theme === "light" ? "dark" : "light"}
         type="button"
-        className="absolute z-[1] top-1 right-1 hover:opacity-75 invisible transition-all group-hover/note-card:visible"
+        className="absolute top-1 right-1 hover:opacity-75 invisible transition-all group-hover/note-card:visible"
         onClick={(e) => {
           e.stopPropagation();
           remove(note.id);
         }}
       >
+        <Tooltip id="delete-btn" />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 384 512"

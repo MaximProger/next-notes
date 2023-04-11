@@ -48,7 +48,7 @@ const Form = ({ create }: IProps) => {
           id="title"
           name="title"
           placeholder="Title"
-          className="bg-transparent border border-fontColor text-fontColor rounded-lg focus:bg-secondary outline-none block w-full p-4 transition-all"
+          className="bg-transparent border border-fontColor dark:border-fontColorDark text-fontColor dark:text-fontColorDark rounded-lg focus:bg-secondary dark:focus:bg-secondaryDark outline-none block w-full p-4 transition-colors"
           value={note.title}
           onChange={(e) => handleChange(e)}
         />
@@ -57,9 +57,9 @@ const Form = ({ create }: IProps) => {
         <textarea
           className={`${
             !showForm
-              ? "h-[58px] resize-none cursor-pointer hover:bg-secondary"
+              ? "h-[58px] resize-none cursor-pointer hover:bg-secondary dark:bg-secondaryDark"
               : ""
-          } bg-transparent border border-fontColor text-fontColor rounded-lg focus:bg-secondary outline-none block w-full p-4 transition-all`}
+          } bg-transparent border border-fontColor dark:border-fontColorDark text-fontColor dark:text-fontColorDark rounded-lg focus:bg-secondary dark:focus:bg-secondaryDark outline-none block w-full p-4 transition-colors`}
           name="body"
           id="body"
           placeholder="The note"
