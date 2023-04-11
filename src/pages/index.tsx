@@ -1,8 +1,16 @@
-import { CreateForm, Navbar, NoteModal } from "@/components";
+import {
+  CreateForm,
+  Navbar,
+  NoteModal,
+  NotesList,
+  Preloader,
+} from "@/components";
 import { NoteCard } from "@/components";
 import { notesReducer } from "@/reducer/notesReducer";
 import { INote } from "@/types";
 import { ChangeEvent, FormEvent, useEffect, useReducer, useState } from "react";
+import { ContextProvider } from "@/contexts/NotesContext";
+import { useLoaded } from "@/hooks";
 
 export default function Home({ data }: { data: INote[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -10,6 +18,7 @@ export default function Home({ data }: { data: INote[] }) {
   const [query, setQuery] = useState("");
   const [notes, dispatch] = useReducer(notesReducer, data);
   const results = filterItems(notes, query);
+  const loaded = useLoaded();
 
   function filterItems(notes: INote[], query: string) {
     query = query.toLowerCase();
@@ -75,24 +84,12 @@ export default function Home({ data }: { data: INote[] }) {
   };
 
   return (
-    <>
+    <ContextProvider>
+      {!loaded && <Preloader />}
       <Navbar searchNotes={searchNotes} />
       <div className="container mx-auto p-4 max-w-[1200px]">
         <CreateForm create={createNote} />
-        {results.length ? (
-          <div className="grid grid-cols-4 gap-[16px] mt-4">
-            {results.map((note) => (
-              <NoteCard
-                key={note.id}
-                note={note}
-                open={openModal}
-                remove={removeNote}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="mt-4">No notes</p>
-        )}
+        <NotesList notes={results} open={openModal} remove={removeNote} />
       </div>
       {showModal && (
         <NoteModal
@@ -104,7 +101,7 @@ export default function Home({ data }: { data: INote[] }) {
           notes={notes}
         />
       )}
-    </>
+    </ContextProvider>
   );
 }
 

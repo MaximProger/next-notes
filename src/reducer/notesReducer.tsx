@@ -17,12 +17,6 @@ export function notesReducer(notes: INote[], action) {
         return note;
       });
     }
-    case "search_notes": {
-      if (action.query.trim().length) {
-        return filterItems(notes, action.query);
-      }
-      return notes;
-    }
     default: {
       throw Error("Unknown action: " + action.type);
     }

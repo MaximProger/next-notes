@@ -4,3 +4,8 @@ export interface INote {
   title: string
   body: string
 }
+
+export interface IContext {
+  changeView(): void,
+  view: string | null
+}
