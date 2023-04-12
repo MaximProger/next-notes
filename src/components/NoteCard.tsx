@@ -103,19 +103,25 @@ const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
       className="group/note-card block md:p-6 p-3 bg-secondary dark:bg-secondaryDark border rounded-lg hover:border-tertiary hover:shadow cursor-pointer relative"
       onClick={() => open(note.id)}
       whileTap={{ scale: 0.97 }}
+      layout
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: opacity }}
+      exit={{ scale: 0.8, opacity: 0 }}
+      transition={{ duration: 0.5, type: "spring" }}
     >
       <button
         data-tooltip-id="view-btn"
         data-tooltip-content="Delete"
         data-tooltip-variant={loaded && theme === "light" ? "dark" : "light"}
+        data-tooltip-place="top"
         type="button"
-        className="absolute top-1 right-1 hover:opacity-75 invisible transition-all group-hover/note-card:visible"
+        className="absolute top-1 right-1 hover:opacity-75 invisible transition-all group-hover/note-card:visible note-card__close"
         onClick={(e) => {
           e.stopPropagation();
           remove(note.id);
         }}
       >
-        <Tooltip id="delete-btn" />
+        <Tooltip id="view-btn" />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 384 512"

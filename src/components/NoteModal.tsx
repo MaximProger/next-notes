@@ -10,10 +10,9 @@ interface IProps {
     noteId: string | number | undefined,
     editNote: { title: string | undefined; body: string | undefined }
   ): void;
-  showModal: boolean;
 }
 
-const NoteModal = ({ noteId, notes, close, edit, showModal }: IProps) => {
+const NoteModal = ({ noteId, notes, close, edit }: IProps) => {
   const note = notes.find((el) => el.id === noteId);
   const [editNote, setEditNote] = useState({
     title: note?.title,

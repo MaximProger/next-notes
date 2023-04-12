@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { NoteCard } from ".";
 import { useStateContext } from "@/contexts/NotesContext";
 import { useLoaded } from "@/hooks";
+import { AnimatePresence } from "framer-motion";
 
 interface IProps {
   notes: INote[];
@@ -32,15 +33,17 @@ const NotesList = ({ notes, open, remove, move }: IProps) => {
   return (
     <>
       {notes.length ? (
-        <div
-          className={`grid ${
-            loaded && view === "list"
-              ? "grid-cols-1"
-              : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2"
-          } md:gap-[16px] gap-[8px] mt-4`}
-        >
-          {notes.map((note, index) => renderCard(note, index))}
-        </div>
+        <AnimatePresence mode="sync" initial={false}>
+          <div
+            className={`grid ${
+              loaded && view === "list"
+                ? "grid-cols-1"
+                : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2"
+            } md:gap-[16px] gap-[8px] mt-4`}
+          >
+            {notes.map((note, index) => renderCard(note, index))}
+          </div>
+        </AnimatePresence>
       ) : (
         <p className="mt-4">No notes</p>
       )}

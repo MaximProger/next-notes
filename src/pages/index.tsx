@@ -123,7 +123,6 @@ export default function Home({ data }: { data: INote[] }) {
       <AnimatePresence>
         {showModal && (
           <NoteModal
-            isShow={showModal}
             close={closeModal}
             edit={editNote}
             noteId={noteId}

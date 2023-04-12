@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/images/logo.svg";
