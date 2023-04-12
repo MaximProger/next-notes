@@ -1,5 +1,5 @@
 import { INote } from "@/types";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { NoteCard } from ".";
 import { useStateContext } from "@/contexts/NotesContext";
 import { useLoaded } from "@/hooks";
@@ -34,8 +34,10 @@ const NotesList = ({ notes, open, remove, move }: IProps) => {
       {notes.length ? (
         <div
           className={`grid ${
-            loaded && view === "list" ? "grid-cols-1" : "grid-cols-4"
-          } gap-[16px] mt-4`}
+            loaded && view === "list"
+              ? "grid-cols-1"
+              : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2"
+          } md:gap-[16px] gap-[8px] mt-4`}
         >
           {notes.map((note, index) => renderCard(note, index))}
         </div>

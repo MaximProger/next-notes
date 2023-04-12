@@ -24,7 +24,9 @@ const Layout = ({ children, search }: IProps) => {
         {!loaded && <Preloader />}
         <CustomHead />
         <Navbar search={search} />
-        <div className="container mx-auto p-4 max-w-[1200px]">{children}</div>
+        <div className="container mx-auto md:p-4 p-2 max-w-[1200px]">
+          {children}
+        </div>
       </div>
     </main>
   );

@@ -17,7 +17,7 @@ const Navbar = ({ search }: IProps) => {
 
   return (
     <nav className="bg-secondary dark:bg-secondaryDark border-gray-200">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto md:p-4 p-2 order-1">
         <Link href="/" className="flex items-center">
           <Image
             src={loaded && theme === "light" ? logo : logoWhite}
@@ -27,14 +27,14 @@ const Navbar = ({ search }: IProps) => {
           />
         </Link>
         <input
-          className="bg-transparent border-[1px] border-fontColor dark:border-fontColorDark rounded-md h-[40px] w-full max-w-[400px] text-fontColor dark:text-fontColorDark px-[12px] outline-none focus:bg-primary dark:focus:bg-primaryDark"
+          className="bg-transparent border-[1px] border-fontColor dark:border-fontColorDark rounded-md h-[40px] w-full md:max-w-[400px] max-w-none text-fontColor dark:text-fontColorDark px-[12px] outline-none focus:bg-primary dark:focus:bg-primaryDark md:order-2 order-4 md:mt-0 mt-4"
           name="search"
           id="search"
           type="text"
           placeholder="Search"
           onChange={search}
         />
-        <div className="flex gap-[16px]">
+        <div className="flex gap-[16px] order-3">
           <button
             data-tooltip-id="theme-btn"
             data-tooltip-content={

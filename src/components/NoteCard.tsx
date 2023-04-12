@@ -99,7 +99,7 @@ const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
       ref={ref}
       style={{ opacity }}
       data-handler-id={handlerId}
-      className="group/note-card block p-6 bg-secondary dark:bg-secondaryDark border rounded-lg hover:border-tertiary hover:shadow cursor-pointer relative"
+      className="group/note-card block md:p-6 p-3 bg-secondary dark:bg-secondaryDark border rounded-lg hover:border-tertiary hover:shadow cursor-pointer relative"
       onClick={() => open(note.id)}
     >
       <button
@@ -126,12 +126,12 @@ const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
           />
         </svg>
       </button>
-      <h5 className="mb-2 text-2xl font-bold tracking-tight">
+      <h5 className="mb-2 md:text-2xl xs:text-xl text-lg font-bold tracking-tight">
         {note.title.length > 50
           ? note.title.slice(0, 50).trim() + "..."
           : note.title}
       </h5>
-      <p className="font-normal">
+      <p className="font-normal md:text-base text-sm">
         {note.body.length > 100
           ? note.body.slice(0, 100).trim() + "..."
           : note.body}
