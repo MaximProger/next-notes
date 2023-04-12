@@ -1,9 +1,8 @@
 import { INote } from "@/types";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 interface IProps {
-  title: string;
-  body: string;
   noteId: number | undefined | null;
   notes: INote[];
   close(): void;
@@ -11,9 +10,10 @@ interface IProps {
     noteId: string | number | undefined,
     editNote: { title: string | undefined; body: string | undefined }
   ): void;
+  showModal: boolean;
 }
 
-const NoteModal = ({ noteId, notes, close, edit }: IProps) => {
+const NoteModal = ({ noteId, notes, close, edit, showModal }: IProps) => {
   const note = notes.find((el) => el.id === noteId);
   const [editNote, setEditNote] = useState({
     title: note?.title,
@@ -24,7 +24,15 @@ const NoteModal = ({ noteId, notes, close, edit }: IProps) => {
 
   return (
     <>
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          transition: { type: "spring", stiffness: 300, damping: 24 },
+        }}
+        exit={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.1 }}
         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
         onClick={() => close()}
       >
@@ -147,8 +155,14 @@ const NoteModal = ({ noteId, notes, close, edit }: IProps) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.25 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.1 }}
+        className="opacity-25 fixed inset-0 z-40 bg-black"
+      ></motion.div>
     </>
   );
 };

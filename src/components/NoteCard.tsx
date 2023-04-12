@@ -5,6 +5,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { Tooltip } from "react-tooltip";
 import { useLoaded } from "@/hooks";
 import { useStateContext } from "@/contexts/NotesContext";
+import { motion } from "framer-motion";
 
 interface IProps {
   note: INote;
@@ -95,12 +96,13 @@ const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
   drag(drop(ref));
 
   return (
-    <div
+    <motion.div
       ref={ref}
       style={{ opacity }}
       data-handler-id={handlerId}
       className="group/note-card block md:p-6 p-3 bg-secondary dark:bg-secondaryDark border rounded-lg hover:border-tertiary hover:shadow cursor-pointer relative"
       onClick={() => open(note.id)}
+      whileTap={{ scale: 0.97 }}
     >
       <button
         data-tooltip-id="view-btn"
@@ -136,7 +138,7 @@ const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
           ? note.body.slice(0, 100).trim() + "..."
           : note.body}
       </p>
-    </div>
+    </motion.div>
   );
 };
 

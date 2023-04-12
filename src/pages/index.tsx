@@ -11,8 +11,8 @@ import {
 } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useStateContext } from "@/contexts/NotesContext";
 import { toast } from "react-toastify";
+import { AnimatePresence } from "framer-motion";
 
 export default function Home({ data }: { data: INote[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -120,16 +120,17 @@ export default function Home({ data }: { data: INote[] }) {
           move={moveNote}
         />
       </DndProvider>
-      {showModal && (
-        <NoteModal
-          title="Hello"
-          body="Lorem"
-          close={closeModal}
-          edit={editNote}
-          noteId={noteId}
-          notes={notes}
-        />
-      )}
+      <AnimatePresence>
+        {showModal && (
+          <NoteModal
+            isShow={showModal}
+            close={closeModal}
+            edit={editNote}
+            noteId={noteId}
+            notes={notes}
+          />
+        )}
+      </AnimatePresence>
     </Layout>
   );
 }
