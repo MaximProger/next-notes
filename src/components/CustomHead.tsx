@@ -3,7 +3,7 @@ import Head from "next/head";
 const CustomHead = () => {
   return (
     <Head>
-      <title>Notes | NEXTJS</title>
+      <title>Notes | App</title>
       <link
         rel="apple-touch-icon"
         sizes="180x180"
