@@ -1,7 +1,7 @@
-import { INote } from "@/types";
+import { Action, INote } from "@/types";
 import update from "immutability-helper";
 
-export function notesReducer(notes: INote[], action) {
+export function notesReducer(notes: INote[], action: Action) {
   switch (action.type) {
     case "create_note": {
       return [action.note, ...notes];
@@ -22,12 +22,9 @@ export function notesReducer(notes: INote[], action) {
       return update(notes, {
         $splice: [
           [action.dragIndex, 1],
-          [action.hoverIndex, 0, notes[action.dragIndex] as INote],
+          [action.hoverIndex, 0, notes[action.dragIndex]],
         ],
       });
-    }
-    default: {
-      throw Error("Unknown action: " + action.type);
     }
   }
 }

@@ -1,7 +1,16 @@
 import { INote } from "@/types";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import uuid from "react-uuid";
 import { AnimatePresence, motion } from "framer-motion";
+import { MouseEvent } from "react";
+
 interface IProps {
   create(e: FormEvent, note: INote): void;
 }
@@ -12,15 +21,15 @@ const Form = ({ create }: IProps) => {
     body: "",
   });
   const [showForm, setShowForm] = useState(false);
-  const formRef = useRef();
+  const formRef = useRef() as MutableRefObject<HTMLFormElement>;
 
   useEffect(() => {
-    const onClick = (e) => {
-      const target = e.target;
-      formRef.current.contains(target) || setShowForm(false);
+    const onClick = (e: MouseEvent<HTMLElement>) => {
+      const target = e.target as any;
+      formRef.current?.contains(target) || setShowForm(false);
     };
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    document.addEventListener("click", onClick as any);
+    return () => document.removeEventListener("click", onClick as any);
   }, []);
 
   const handleChange = (
@@ -45,6 +54,7 @@ const Form = ({ create }: IProps) => {
       <AnimatePresence>
         {showForm && (
           <motion.div
+            key="title"
             className="mb-6"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
@@ -81,6 +91,7 @@ const Form = ({ create }: IProps) => {
         </div>
         {showForm && (
           <motion.button
+            key="submit"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

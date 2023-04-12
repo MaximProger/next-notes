@@ -1,6 +1,6 @@
 import { CreateForm, Layout, NoteModal, NotesList } from "@/components";
 import { notesReducer } from "@/reducers/notesReducer";
-import { INote } from "@/types";
+import { IAction, INote } from "@/types";
 import {
   ChangeEvent,
   FormEvent,
@@ -11,7 +11,7 @@ import {
 } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { toast } from "react-toastify";
+import { ToastOptions, toast } from "react-toastify";
 import { AnimatePresence } from "framer-motion";
 
 export default function Home({ data }: { data: INote[] }) {
@@ -32,7 +32,7 @@ export default function Home({ data }: { data: INote[] }) {
       progress: undefined,
       theme: "light",
       type: type,
-    };
+    } as ToastOptions<{}>;
   };
 
   function filterItems(notes: INote[], query: string) {
@@ -72,7 +72,7 @@ export default function Home({ data }: { data: INote[] }) {
     dispatch({
       type: "create_note",
       note: note,
-    });
+    } as any);
     toast("Note created", toastOption("success"));
   };
 
