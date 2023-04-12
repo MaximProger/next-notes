@@ -110,7 +110,7 @@ const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
       transition={{ duration: 0.5, type: "spring" }}
     >
       <button
-        data-tooltip-id="view-btn"
+        data-tooltip-id="delete-btn"
         data-tooltip-content="Delete"
         data-tooltip-variant={loaded && theme === "light" ? "dark" : "light"}
         data-tooltip-place="top"
@@ -121,7 +121,7 @@ const NoteCard = ({ note, id, index, open, remove, move }: IProps) => {
           remove(note.id);
         }}
       >
-        <Tooltip id="view-btn" />
+        <Tooltip id="delete-btn" />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 384 512"
